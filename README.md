@@ -1,6 +1,6 @@
 # burble-api
-GitHub Client: https://github.com/thinkful-ei-quail/burble-client
-GitHub Server: https://github.com/thinkful-ei-quail/burble-api
+GitHub Client: https://github.com/thinkful-ei-quail/goat-client
+GitHub Server: https://github.com/thinkful-ei-quail/goat-api
 
 Heroku:   TBA
 Vercel:   TBA
