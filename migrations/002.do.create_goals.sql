@@ -3,7 +3,7 @@ CREATE TABLE "goals" (
   "title" TEXT NOT NULL,
   "description" TEXT,
   "points" SMALLINT DEFAULT 0,
-  "end_date" DATE DATESTYLE 'ISO, MDY',
+  "end_date" DATE,
   "complete" BOOLEAN DEFAULT FALSE,
   "archive" BOOLEAN DEFAULT FALSE,
   "user_id" INTEGER REFERENCES "user"(id)
