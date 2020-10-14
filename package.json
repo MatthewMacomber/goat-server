@@ -1,9 +1,9 @@
 {
-  "name": "express-boilerplate",
-  "version": "1.0.0",
-  "description": "The express boilerplate for creating servers.",
-  "private": true,
+  "name": "goat-project",
+  "version": "0.0.1",
+  "description": "",
   "main": "src/server.js",
+  "private": true,
   "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
