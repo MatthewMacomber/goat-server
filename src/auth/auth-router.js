@@ -10,7 +10,7 @@ authRouter
     const loginUser = {user_name, password};
 
     for (const [key, value] of Object.entries(loginUser)) {
-      if (value == null) { // Intentional double equals, do not change.
+      if (value == null) {
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         });
@@ -32,7 +32,7 @@ authRouter
               });
             }
             const sub = dbUser.user_name;
-            const payload = {user_id: dbUser.id, role: dbUser.role};
+            const payload = {user_id: dbUser.id, role: 'user'};
             res.send({
               authToken: AuthService.createJwt(sub, payload)
             });
