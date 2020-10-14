@@ -46,6 +46,7 @@ userRouter.post("/", jsonBodyParser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+  //still need patch, delete and get(user score)
 });
 
 module.exports = userRouter;
