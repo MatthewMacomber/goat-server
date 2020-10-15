@@ -1,6 +1,16 @@
+****DOT ENV DETAILS***
+MIGRATION_DB_PORT=5432
+MIGRATION_DB_NAME=goat-project
+MIGRATION_DB_USER=zenziali
+MIGRATION_DB_PASS=
+DB_URL="postgresql://zenziali@localhost/goat-project"
+TEST_DB_URL="postgresql://zenziali@localhost/goat-project-test"
+JWT_SECRET="goat-project-jwt-secret"
+
+
 # burble-api
-GitHub Client: https://github.com/thinkful-ei-quail/burble-client
-GitHub Server: https://github.com/thinkful-ei-quail/burble-api
+GitHub Client: https://github.com/thinkful-ei-quail/goat-client
+GitHub Server: https://github.com/thinkful-ei-quail/goat-api
 
 Heroku:   TBA
 Vercel:   TBA
