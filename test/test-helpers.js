@@ -4,18 +4,16 @@ const jwt = require('jsonwebtoken');
 
 /**
  * create a knex instance connected to postgres
- * @returns {knex instance}
  */
 function makeKnexInstance() {
   return knex({
     client: 'pg',
-    connection: process.env.TEST_DB_URL,
+    connection: process.env.TEST_DATABASE_URL,
   });
 }
 
 /**
- * create a knex instance connected to postgres
- * @returns {array} of user objects
+ * Returns array of user objects
  */
 function makeUsersArray() {
   return [
@@ -34,11 +32,51 @@ function makeUsersArray() {
   ];
 }
 
+function makeGoals() {
+  return [
+    {
+      id: 1,
+      title: 'Goal-One',
+      description: 'First Goal',
+      points: 1,
+      end_date: Date.now().toLocaleString(),
+      complete: false,
+      archive: false,
+      user_id: 1
+    },
+    {
+      id: 2,
+      title: 'Goal-Two',
+      description: 'Second Goal',
+      points: 2,
+      end_date: Date.now().toLocaleString(),
+      complete: true,
+      archive: true,
+      user_id: 2
+    }
+  ];
+}
+function makeRewards() {
+  return [
+    {
+      id: 1,
+      reward: 'Reward-One',
+      description: 'First Reward',
+      point_value: 1,
+      user_id: 1,
+    },
+    {
+      id: 2,
+      reward: 'Reward-Two',
+      description: 'Second Reward',
+      point_value: 2,
+      user_id: 2,
+    }
+  ];
+}
+
 /**
- * make a bearer token with jwt for authorization header
- * @param {object} user - contains `id`, `username`
- * @param {string} secret - used to create the JWT
- * @returns {string} - for HTTP authorization header
+ * Makes a bearer token with jwt for authorization header
  */
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
@@ -49,29 +87,51 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 }
 
 /**
- * insert users into db with bcrypted passwords and update sequence
- * @param {knex instance} db
- * @param {array} users - array of user objects for insertion
- * @returns {Promise} - when users table seeded
+ * Remove data from tables and reset sequences 
+ */
+function cleanTables(db) {
+  return db.transaction(trx =>
+    trx.raw(
+      `TRUNCATE
+        "rewards",
+        "goals",
+        "user"`
+    )
+  );
+}
+
+/**
+ * Inserts users into db with bcrypted passwords
  */
 function seedUsers(db, users) {
   const preppedUsers = users.map(user => ({
     ...user,
     password: bcrypt.hashSync(user.password, 1)
   }))
-  return db.transaction(async trx => {
-    await trx.into('user').insert(preppedUsers)
+  return db('user').insert(preppedUsers);
+}
 
-    await trx.raw(
-      `SELECT setval('user_id_seq', ?)`,
-      [users[users.length - 1].id],
-    )
-  })
+/**
+ * Seed the databases with goals
+ */
+async function seedGoals(db, users, goals) {
+  await seedUsers(db, users);
+  return db('goals').insert(goals);
+}
+
+async function seedRewards(db, users, rewards) {
+  await seedUsers(db, users);
+  return db('goals').insert(rewards);
 }
 
 module.exports = {
   makeKnexInstance,
   makeUsersArray,
+  makeGoals,
+  makeRewards,
   makeAuthHeader,
+  cleanTables,
   seedUsers,
-};
+  seedGoals,
+  seedRewards
+}

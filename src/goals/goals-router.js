@@ -1,7 +1,5 @@
 const express = require("express");
 const path = require("path");
-const uuid = require("uuid");
-const logger = require("../logger");
 const GoalsService = require("./goals-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 const UserService = require("../users/users-service");
@@ -21,8 +19,9 @@ const serializeGoal = (goal) => ({
 
 goalsRouter
   .route("/")
+  .all(requireAuth)
   .get((req, res, next) => {
-    GoalsService.getUserGoals(req.app.get("db"))
+    GoalsService.getUserGoals(req.app.get("db"), req.user.id)
       .then((goal) => {
         res.json(goal.map(serializeGoal));
       })
@@ -57,7 +56,7 @@ goalsRouter
 
 goalsRouter
   .route("/:goal.id")
-  // .all(requireAuth)
+  .all(requireAuth)
   .all(checkGoalExists)
   .get((req, res) => {
     res.json(serializeGoal(res.goal));
