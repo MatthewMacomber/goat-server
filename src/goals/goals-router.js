@@ -30,11 +30,14 @@ goalsRouter
   .post(jsonParser, (req, res, next) => {
     const { title, description, points, end_date } = req.body;
     const newGoal = {
+      user_id: req.user.id,
       title,
       description,
       points,
       end_date,
     };
+    console.log('req.body', req.body);
+    console.log('newGoal', newGoal);
     for (const [key, value] of Object.entries(newGoal)) {
       if (value == null) {
         return res.status(400).json({
@@ -42,7 +45,7 @@ goalsRouter
         });
       }
     }
-    newGoal.name = name;
+    newGoal.title = title;
 
     GoalsService.insertGoal(req.app.get("db"), newGoal)
       .then((goal) => {
