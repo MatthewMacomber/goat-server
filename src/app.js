@@ -10,7 +10,7 @@ const { NODE_ENV } = require('./config');
 
 // Router imports.
 const authRouter = require('./auth/auth-router');
-const usersRouter = require('./users/users-router');
+const userRouter = require('./user/user-router');
 const goalsRouter = require('./goals/goals-router');
 const rewardsRouter =require('./rewards/rewards-router');
 
@@ -24,7 +24,7 @@ app.use(helmet());
 
 //Use Routers.
 app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/users', userRouter);
 app.use('/api/goals', goalsRouter);
 app.use('/api/rewards', rewardsRouter);
 
