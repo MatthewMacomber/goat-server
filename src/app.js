@@ -10,7 +10,7 @@ const { NODE_ENV } = require('./config');
 
 // Router imports.
 const authRouter = require('./auth/auth-router');
-const userRouter = require('./user/user-router');
+const userRouter = require('./users/users-router');
 const goalsRouter = require('./goals/goals-router');
 const rewardsRouter =require('./rewards/rewards-router');
 
@@ -26,9 +26,19 @@ app.use(helmet());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/goals', goalsRouter);
-app.use('/api/rewards', rewardsRouter);
+//app.use('/api/rewards', rewardsRouter); // Uncomment once implemented.
 
 // Handle and display error messages.
-app.use(errorHandler());
+app.use(function errorHandler(error, req, res, next) {
+  let response;
+  if (NODE_ENV === 'production') {
+    response = { error: { message: 'server error'} };
+  } else {
+    console.log(error);
+    response = { message: error.message, error };
+  }
+  res.status(500).json(response);
+  next();
+});
 
 module.exports = app;
