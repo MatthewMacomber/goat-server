@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const GoalsService = require("./goals-service");
 const { requireAuth } = require("../middleware/jwt-auth");
+const UserService = require("../users/users-service");
 
 const goalsRouter = express.Router();
 const jsonParser = express.json();
