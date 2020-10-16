@@ -3,7 +3,6 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const errorHandler = require('./middleware/error-handler');
 
 // Enviroment imports.
 const { NODE_ENV } = require('./config');
