@@ -4,7 +4,6 @@ const GoalsService = {
       .select('*')
       .from('goals')
       .where({ user_id })
-      .join('user', { 'user.id': 'goals.user_id' });
   },
 
   getById(knex, id) {
