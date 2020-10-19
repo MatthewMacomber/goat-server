@@ -3,7 +3,7 @@ const GoalsService = {
     return knex
       .select('*')
       .from('goals')
-      .where({ user_id })
+      .where({ user_id });
   },
 
   getById(knex, id) {
@@ -17,6 +17,9 @@ const GoalsService = {
 
   updateGoal(knex, id, newGoalFields) {
     return knex('goals').where({id:id}).update(newGoalFields);
+  },
+  deleteGoal(knex, id) {
+    return knex('goals').where({id:id}).del();
   }
 };
 

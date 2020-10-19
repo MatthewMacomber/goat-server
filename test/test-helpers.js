@@ -39,7 +39,7 @@ function makeGoals() {
       title: 'Goal-One',
       description: 'First Goal',
       points: 1,
-      end_date: Date.now().toLocaleString(),
+      end_date: new Date(Date.now()).toUTCString(),
       complete: false,
       archive: false,
       user_id: 1
@@ -49,7 +49,7 @@ function makeGoals() {
       title: 'Goal-Two',
       description: 'Second Goal',
       points: 2,
-      end_date: Date.now().toLocaleString(),
+      end_date: new Date(Date.now()).toUTCString(),
       complete: true,
       archive: true,
       user_id: 2
@@ -95,7 +95,8 @@ function cleanTables(db) {
       `TRUNCATE
         "rewards",
         "goals",
-        "user"`
+        "user"
+        RESTART IDENTITY`
     )
   );
 }

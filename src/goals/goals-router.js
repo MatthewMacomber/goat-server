@@ -36,8 +36,6 @@ goalsRouter
       points,
       end_date,
     };
-    console.log('req.body', req.body);
-    console.log('newGoal', newGoal);
     for (const [key, value] of Object.entries(newGoal)) {
       if (value == null) {
         return res.status(400).json({
@@ -55,9 +53,24 @@ goalsRouter
           .json(serializeGoal(goal));
       })
       .catch(next);
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const {id, title, description, points, end_date} = req.body;
+    const goalUpdate = { title, description, points, end_date};
+    GoalsService.updateGoal(req.app.get('db'), id, goalUpdate)
+      .then((numRowsAffected) => {
+        res.status(204).end();
+      })
+  })
+  .delete(jsonParser, (req, res, next) => {
+    const {id} = req.body;
+    GoalsService.deleteGoal(id)
+      .then((numRowsAffected) => {
+        res.status(204).end();
+      })
   });
 
-goalsRouter
+/*goalsRouter
   .route("/:goal.id")
   .all(requireAuth)
   .all(checkGoalExists)
@@ -80,6 +93,7 @@ goalsRouter
       })
       .catch(next);
   });
+*/
 
 /* async/await syntax for promises */
 async function checkGoalExists(req, res, next) {
