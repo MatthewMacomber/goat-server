@@ -1,13 +1,3 @@
-ENV DETAILS (May vary depending on you postgresql settings)
-API_TOKEN=the-best-goat-ever
-MIGRATION_DB_PORT=5432
-MIGRATION_DB_NAME=goat-project
-MIGRATION_DB_USER=goat
-MIGRATION_DB_PASS=supergoat!1!1
-DATABASE_URL=’postgresql://goat@localhost/goatful’
-TEST_DATABASE_URL=’’postgresql://goat@localhost/goatful-test’
-JWT_SECRET=’goat-project-jwt-secret’
-
 # goat-api
 
 GitHub Client: https://github.com/thinkful-ei-quail/goat-client
