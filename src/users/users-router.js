@@ -7,15 +7,15 @@ const parseBody = express.json();
 
 usersRouter
   .post('/', parseBody, (req, res, next) => {
-    const {password, user_name, full_name, nickname = ''} = req.body;
+    const {password, username, name} = req.body;
 
-    for (const field of ['full_name', 'user_name', 'password']) {
+    for (const field of ['name', 'username', 'password']) {
       if (!req.body[field]) {
         return res.status(400).json({error: `Missing '${field}' in request body`});
       }
     }
     
-    if (user_name.startsWith(' ') || user_name.endsWith(' ')) {
+    if (username.startsWith(' ') || username.endsWith(' ')) {
       return res.status(400).json({error: 'Username cannot start or end with spaces'});
     }
 
@@ -24,7 +24,7 @@ usersRouter
       return res.status(400).json({error: passwordError});
     }
 
-    UsersService.hasUserWithUsername(req.app.get('db'), user_name)
+    UsersService.hasUserWithUsername(req.app.get('db'), username)
       .then(hasUserWithUsername => {
         if (hasUserWithUsername === true) {
           return res.status(400).json({error: 'Username already taken'});
@@ -32,10 +32,9 @@ usersRouter
           return UsersService.hashPassword(password)
             .then(hashedPassword => {
               const newUser = {
-                user_name,
+                username,
                 password: hashedPassword,
-                full_name,
-                nickname
+                name,
               };
               return UsersService.insertUser(req.app.get('db'), newUser)
                 .then(user => {
