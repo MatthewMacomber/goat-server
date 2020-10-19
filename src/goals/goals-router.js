@@ -36,8 +36,6 @@ goalsRouter
       points,
       end_date,
     };
-    console.log('req.body', req.body);
-    console.log('newGoal', newGoal);
     for (const [key, value] of Object.entries(newGoal)) {
       if (value == null) {
         return res.status(400).json({
