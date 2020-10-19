@@ -4,21 +4,21 @@ const xss = require('xss');
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const UsersService = {
-  hasUserWithUsername(db, user_name) {
-    return db('thecodes_users')
-      .where({user_name})
+  hasUserWithUsername(db, username) {
+    return db('user')
+      .where({username})
       .first()
       .then(user => !!user);
   },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
-      .into('thecodes_users')
+      .into('user')
       .returning('*')
       .then(([user]) => user);
   },
   getUsername(db, user_id) {
-    return db('thecodes_users')
+    return db('user')
       .where({'id': user_id})
       .first();
   },
@@ -43,10 +43,8 @@ const UsersService = {
   serializeUser(user) {
     return {
       id: user.id,
-      full_name: xss(user.full_name),
-      user_name: xss(user.user_name),
-      nickname: xss(user.nickname),
-      date_created: new Date(user.date_created)
+      name: xss(user.name),
+      username: xss(user.username),
     };
   }
 };
