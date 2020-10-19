@@ -163,4 +163,7 @@ describe('User Endpoints', function () {
                 expect(compareMatch).to.be.true
               })
           )
-      })
+      });
+    });
+  });
+});
