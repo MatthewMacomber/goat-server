@@ -15,11 +15,11 @@ const GoalsService = {
     return knex.insert(newGoal).into('goals').returning('*').then((rows) => {return rows[0];});
   },
 
-  updateGoal(knex, id, newGoalFields) {
-    return knex('goals').where({id:id}).update(newGoalFields);
+  updateGoal(knex, id, user_id, newGoalFields) {
+    return knex('goals').where({id, user_id}).update(newGoalFields);
   },
-  deleteGoal(knex, id) {
-    return knex('goals').where({id:id}).del();
+  deleteGoal(knex, id, user_id) {
+    return knex('goals').where({id, user_id}).delete();
   }
 };
 

@@ -1,9 +1,6 @@
 const express = require("express");
-const path = require("path");
 const GoalsService = require("./goals-service");
 const { requireAuth } = require("../middleware/jwt-auth");
-const UserService = require("../users/users-service");
-
 const goalsRouter = express.Router();
 const jsonParser = express.json();
 
@@ -32,7 +29,6 @@ goalsRouter
     const newGoal = {
       user_id: req.user.id,
       title,
-      description,
       points,
       end_date,
     };
@@ -43,13 +39,12 @@ goalsRouter
         });
       }
     }
-    newGoal.title = title;
+    newGoal.description = description;
 
     GoalsService.insertGoal(req.app.get("db"), newGoal)
       .then((goal) => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${goal.id}`))
           .json(serializeGoal(goal));
       })
       .catch(next);
@@ -57,59 +52,19 @@ goalsRouter
   .patch(jsonParser, (req, res, next) => {
     const {id, title, description, points, end_date} = req.body;
     const goalUpdate = { title, description, points, end_date};
-    GoalsService.updateGoal(req.app.get('db'), id, goalUpdate)
-      .then((numRowsAffected) => {
+    GoalsService.updateGoal(req.app.get('db'), id, req.user.id, goalUpdate)
+      .then(() => {
         res.status(204).end();
       })
+      .catch(next);
   })
   .delete(jsonParser, (req, res, next) => {
     const {id} = req.body;
-    GoalsService.deleteGoal(id)
-      .then((numRowsAffected) => {
-        res.status(204).end();
-      })
-  });
-
-/*goalsRouter
-  .route("/:goal.id")
-  .all(requireAuth)
-  .all(checkGoalExists)
-  .get((req, res) => {
-    res.json(serializeGoal(res.goal));
-  })
-  .patch(jsonParser, (req, res, next) => {
-    const { id, title, description, points, end_date } = req.body;
-
-    const goalToUpdate = {
-      title,
-      description,
-      points,
-      end_date,
-    };
-
-    GoalsService.updateGoal(req.app.get("db"), req.params.id, goalToUpdate)
-      .then((numRowsAffected) => {
+    GoalsService.deleteGoal(req.app.get('db'), id, req.user.id)
+      .then(() => {
         res.status(204).end();
       })
       .catch(next);
   });
-*/
-
-/* async/await syntax for promises */
-async function checkGoalExists(req, res, next) {
-  try {
-    const goal = await GoalsService.getById(req.app.get("db"), req.params.id);
-
-    if (!goal)
-      return res.status(404).json({
-        error: `Goal doesn't exist`,
-      });
-
-    res.goal = goal;
-    next();
-  } catch (error) {
-    next(error);
-  }
-}
 
 module.exports = goalsRouter;
