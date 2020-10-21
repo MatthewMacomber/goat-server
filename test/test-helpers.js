@@ -60,16 +60,16 @@ function makeRewards() {
   return [
     {
       id: 1,
-      reward: 'Reward-One',
+      title: 'Reward-One',
       description: 'First Reward',
-      point_value: 1,
+      points: 1,
       user_id: 1,
     },
     {
       id: 2,
-      reward: 'Reward-Two',
+      title: 'Reward-Two',
       description: 'Second Reward',
-      point_value: 2,
+      points: 2,
       user_id: 2,
     }
   ];
@@ -122,7 +122,7 @@ async function seedGoals(db, users, goals) {
 
 async function seedRewards(db, users, rewards) {
   await seedUsers(db, users);
-  return db('goals').insert(rewards);
+  return db('rewards').insert(rewards);
 }
 
 module.exports = {

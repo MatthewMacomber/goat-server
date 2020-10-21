@@ -19,8 +19,8 @@ const RewardsService = {
     return knex('rewards').where({id, user_id}).update(newRewardFields);
   },
 
-  deleteReward(knex, id) {
-    return knex('rewards').where({id, user_id}).del();
+  deleteReward(knex, id, user_id) {
+    return knex('rewards').where({id, user_id}).delete();
   }
 };
 

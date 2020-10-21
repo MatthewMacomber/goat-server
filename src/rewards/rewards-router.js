@@ -57,11 +57,11 @@ rewardsRouter
   })
   .delete(jsonParser, (req, res, next) => {
     const {id} = req.body;
-    RewardService.deleteReward(req.app.get('db'), id, req.user.id)
+    RewardsService.deleteReward(req.app.get('db'), id, req.user.id)
       .then(() => {
         res.status(204).end();
       })
       .catch(next);
   });
 
-module.exports = RewardsRouter;
+module.exports = rewardsRouter;

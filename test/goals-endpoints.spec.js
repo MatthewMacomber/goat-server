@@ -67,7 +67,7 @@ describe.only('Goals Endpoints', function() {
         });
     });
 
-    const fields = ['title', 'description', 'points', 'end_date'];
+    const fields = ['title', 'points', 'end_date'];
     fields.forEach(field => {
       it(`returns error message when ${field} is missing`, () => {
         const attempt = {
@@ -85,12 +85,4 @@ describe.only('Goals Endpoints', function() {
       });
     });
   });
-
-  // describe('GET /:goal_id requests', () => {
-
-  // });
-
-  // describe('PATCH /:goal_id requests', () => {
-
-  // });
 });

@@ -19,7 +19,7 @@ const GoalsService = {
     return knex('goals').where({id, user_id}).update(newGoalFields);
   },
   deleteGoal(knex, id, user_id) {
-    return knex('goals').where({id, user_id}).del();
+    return knex('goals').where({id, user_id}).delete();
   }
 };
 
