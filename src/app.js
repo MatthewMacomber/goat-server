@@ -25,7 +25,7 @@ app.use(helmet());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/goals', goalsRouter);
-//app.use('/api/rewards', rewardsRouter); // Uncomment once implemented.
+app.use('/api/rewards', rewardsRouter);
 
 // Handle and display error messages.
 app.use(function errorHandler(error, req, res, next) {
