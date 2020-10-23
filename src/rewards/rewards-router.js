@@ -1,6 +1,6 @@
-const express = require("express");
-const RewardsService = require("./rewards-service");
-const { requireAuth } = require("../middleware/jwt-auth");
+const express = require('express');
+const RewardsService = require('./rewards-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const rewardsRouter = express.Router();
 const jsonParser = express.json();
@@ -13,10 +13,10 @@ const serializeReward = (reward) => ({
 });
 
 rewardsRouter
-  .route("/")
+  .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    RewardsService.getUserRewards(req.app.get("db"), req.user.id)
+    RewardsService.getUserRewards(req.app.get('db'), req.user.id)
       .then((reward) => {
         res.json(reward.map(serializeReward));
       })
@@ -42,7 +42,7 @@ rewardsRouter
         error: {message: 'Points must be a number 1-100'},
       });
     }
-    RewardsService.insertReward(req.app.get("db"), newReward)
+    RewardsService.insertReward(req.app.get('db'), newReward)
       .then((reward) => {
         res
           .status(201)

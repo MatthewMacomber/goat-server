@@ -24,14 +24,14 @@ const UsersService = {
   },
   updateUser(db, id, userData) {
     return db('user')
-    .where({id})
-    .update(userData);
+      .where({id})
+      .update(userData);
   },
   getPoints(db, id) {
     return db('user')
-    .returning(['points', 'point_goal'])
-    .where({id})
-    .first();
+      .returning(['points', 'point_goal'])
+      .where({id})
+      .first();
   },
   validatePassword(password) {
     if (password.length <= 8) {
