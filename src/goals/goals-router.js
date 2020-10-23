@@ -40,7 +40,11 @@ goalsRouter
       }
     }
     newGoal.description = description;
-
+    if(points <= 0 || points > 100) {
+      return res.status(400).json({
+        error: {message: 'Points must be a number 1-100'},
+      });
+    }
     GoalsService.insertGoal(req.app.get("db"), newGoal)
       .then((goal) => {
         res
