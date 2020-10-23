@@ -27,6 +27,12 @@ const UsersService = {
     .where({id})
     .update(userData);
   },
+  getPoints(db, id) {
+    return db('user')
+    .returning(['points', 'point_goal'])
+    .where({id})
+    .first();
+  },
   validatePassword(password) {
     if (password.length <= 8) {
       return 'Password must be longer than 8 characters.';
