@@ -22,6 +22,11 @@ const UsersService = {
       .where({'id': user_id})
       .first();
   },
+  updateUser(db, id, userData) {
+    return db('user')
+    .where({id})
+    .update(userData);
+  },
   validatePassword(password) {
     if (password.length <= 8) {
       return 'Password must be longer than 8 characters.';
