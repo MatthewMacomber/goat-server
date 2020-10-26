@@ -1,6 +1,6 @@
-const express = require("express");
-const GoalsService = require("./goals-service");
-const { requireAuth } = require("../middleware/jwt-auth");
+const express = require('express');
+const GoalsService = require('./goals-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 const goalsRouter = express.Router();
 const jsonParser = express.json();
 
@@ -15,10 +15,10 @@ const serializeGoal = (goal) => ({
 });
 
 goalsRouter
-  .route("/")
+  .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    GoalsService.getUserGoals(req.app.get("db"), req.user.id)
+    GoalsService.getUserGoals(req.app.get('db'), req.user.id)
       .then((goal) => {
         res.json(goal.map(serializeGoal));
       })
@@ -45,7 +45,7 @@ goalsRouter
         error: {message: 'Points must be a number 1-100'},
       });
     }
-    GoalsService.insertGoal(req.app.get("db"), newGoal)
+    GoalsService.insertGoal(req.app.get('db'), newGoal)
       .then((goal) => {
         res
           .status(201)

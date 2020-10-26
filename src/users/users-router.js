@@ -61,30 +61,30 @@ usersRouter
     if(modify_points) {
       UsersService.getPoints(req.app.get('db'), req.user.id)
         .then(user => {
-          currPoints = user.points;
-          currPoints = Math.min(Math.max(currPoints + modify_points, 0), 100)
+          let currPoints = user.points;
+          currPoints = Math.min(Math.max(currPoints + modify_points, 0), 100);
           newData.points = currPoints;
           UsersService.updateUser(req.app.get('db'), req.user.id, newData)
-          .then(() => {
-            return res.status(202).json(newData);
-          })
-          .catch(next);
-        })
+            .then(() => {
+              return res.status(202).json(newData);
+            })
+            .catch(next);
+        });
     }
     else {
       UsersService.updateUser(req.app.get('db'), req.user.id, newData)
-      .then(() => {
-        return res.status(202).json(newData);
-      })
-      .catch(next);
+        .then(() => {
+          return res.status(202).json(newData);
+        })
+        .catch(next);
     }
   })
   .get(requireAuth, (req, res, next) => {
     UsersService.getPoints(req.app.get('db'), req.user.id)
-    .then(data => {
-      return res.status(200).json(data);
-    })
-    .catch(next);
+      .then(data => {
+        return res.status(200).json(data);
+      })
+      .catch(next);
   });
 
 usersRouter
