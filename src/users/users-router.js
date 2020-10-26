@@ -49,32 +49,40 @@ usersRouter
       })
       .catch(next);
   })
-  .patch(requireAuth, parseBody, async (req, res, next) => {
+  .patch(requireAuth, parseBody, (req, res, next) => {
     const {modify_points, point_goal} = req.body;
     if(isNaN(modify_points) && isNaN(point_goal)) {
       return res.status(400).json({error: {message: 'Body must contain number modify_points or number point_goal'}});
     }
     const newData = {};
-    try {
-      if(modify_points) {
-        let currPoints = await UsersService.getPoints(req.app.get('db'), req.user.id);
-        currPoints = Math.min(Math.max(currPoints.points + modifyPoints, 0), 100)
-        newData.points = currPoints;
-      }
-      if(point_goal) {
-        newData.point_goal = point_goal;
-      }
-      await UsersService.updateUser(req.app.get('db'), req.user.id, newData)
-      return res.send(202).json(newData);
+    if(point_goal) {
+      newData.point_goal = point_goal;
     }
-    catch {
-      next();
+    if(modify_points) {
+      UsersService.getPoints(req.app.get('db'), req.user.id)
+        .then(user => {
+          currPoints = user.points;
+          currPoints = Math.min(Math.max(currPoints + modify_points, 0), 100)
+          newData.points = currPoints;
+          UsersService.updateUser(req.app.get('db'), req.user.id, newData)
+          .then(() => {
+            return res.status(202).json(newData);
+          })
+          .catch(next);
+        })
+    }
+    else {
+      UsersService.updateUser(req.app.get('db'), req.user.id, newData)
+      .then(() => {
+        return res.status(202).json(newData);
+      })
+      .catch(next);
     }
   })
   .get(requireAuth, (req, res, next) => {
     UsersService.getPoints(req.app.get('db'), req.user.id)
     .then(data => {
-      return res.send(200).json(data);
+      return res.status(200).json(data);
     })
     .catch(next);
   });

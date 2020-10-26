@@ -54,8 +54,8 @@ goalsRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const {id, title, description, points, end_date} = req.body;
-    const goalUpdate = { title, description, points, end_date};
+    const {id, complete, archive} = req.body;
+    const goalUpdate = {complete, archive};
     GoalsService.updateGoal(req.app.get('db'), id, req.user.id, goalUpdate)
       .then(() => {
         res.status(204).end();
