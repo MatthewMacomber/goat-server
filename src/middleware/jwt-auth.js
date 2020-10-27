@@ -1,4 +1,4 @@
-const { JsonWebTokenError } = require("jsonwebtoken");
+const { JsonWebTokenError } = require('jsonwebtoken');
 const AuthService = require('../auth/auth-service');
 
 const requireAuth = (req, res, next) => {
@@ -24,12 +24,12 @@ const requireAuth = (req, res, next) => {
         console.error(err);
         next(err);
       });
-    } catch (error) {
-      if (error instanceof JsonWebTokenError) {
-        return res.status(401).json({ error: "Unauthorized request - other" });
-      }
-      next(error);
+  } catch (error) {
+    if (error instanceof JsonWebTokenError) {
+      return res.status(401).json({ error: 'Unauthorized request - other' });
     }
+    next(error);
+  }
 };
 
 module.exports = {requireAuth};
