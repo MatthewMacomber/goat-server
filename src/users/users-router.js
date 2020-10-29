@@ -23,13 +23,13 @@ usersRouter
 
     const passwordError = UsersService.validatePassword(password);
     if (passwordError !== null) {
-      return res.status(400).json({error: passwordError});
+      return res.status(400).json({error: {message: passwordError}});
     }
 
     UsersService.hasUserWithUsername(req.app.get('db'), username)
       .then(hasUserWithUsername => {
         if (hasUserWithUsername === true) {
-          return res.status(400).json({error: 'Username already taken'});
+          return res.status(400).json({error: {message:'Username already taken'}});
         } else {
           return UsersService.hashPassword(password)
             .then(hashedPassword => {
