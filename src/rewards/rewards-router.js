@@ -32,14 +32,14 @@ rewardsRouter
     for (const [key, value] of Object.entries(newReward)) {
       if (value == null) {
         return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` },
+          message: `Missing '${key}' in request body`,
         });
       }
     }
     newReward.description = description;
-    if(points <= 0 || points > 100) {
+    if(isNaN(points) || points <= 0 || points > 100) {
       return res.status(400).json({
-        error: {message: 'Points must be a number 1-100'},
+        message: 'Points must be a number 1-100',
       });
     }
     RewardsService.insertReward(req.app.get('db'), newReward)
