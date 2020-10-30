@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
-describe.only('Goals Endpoints', function() {
+describe('Goals Endpoints', function() {
   let db;
 
   const testUsers = helpers.makeUsersArray();
@@ -81,7 +81,7 @@ describe.only('Goals Endpoints', function() {
           .post('/api/goals')
           .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(attempt)
-          .expect(400, {error: {message: `Missing '${field}' in request body`}});
+          .expect(400, {message: `Missing '${field}' in request body`});
       });
     });
   });
