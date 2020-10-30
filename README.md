@@ -12,8 +12,6 @@ Developer Team:
 
 Madison Brown, Project Manager
 
-Zenzi Ali, Co- Product Manager (Documentation and Planning)
-
 Patrick, Co-Product Manager
 
 Justin , Design Lead
