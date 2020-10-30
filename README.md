@@ -12,9 +12,9 @@ Developer Team:
 
 Madison Brown, Project Manager
 
-Patrick, Co-Product Manager
+Patrick Easter, Co-Product Manager
 
-Justin , Design Lead
+Justin Foster, Design Lead
 
 Matt Macomber, QA Lead
 
