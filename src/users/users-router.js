@@ -13,23 +13,23 @@ usersRouter
 
     for (const field of ['name', 'username', 'password']) {
       if (!req.body[field]) {
-        return res.status(400).json({error: `Missing '${field}' in request body`});
+        return res.status(400).json({message: `Missing '${field}' in request body`});
       }
     }
     
     if (username.startsWith(' ') || username.endsWith(' ')) {
-      return res.status(400).json({error: 'Username cannot start or end with spaces'});
+      return res.status(400).json({message: 'Username cannot start or end with spaces'});
     }
 
     const passwordError = UsersService.validatePassword(password);
     if (passwordError !== null) {
-      return res.status(400).json({error: {message: passwordError}});
+      return res.status(400).json({message: passwordError});
     }
 
     UsersService.hasUserWithUsername(req.app.get('db'), username)
       .then(hasUserWithUsername => {
         if (hasUserWithUsername === true) {
-          return res.status(400).json({error: {message:'Username already taken'}});
+          return res.status(400).json({message:'Username already taken'});
         } else {
           return UsersService.hashPassword(password)
             .then(hashedPassword => {
@@ -52,7 +52,7 @@ usersRouter
   .patch(requireAuth, parseBody, (req, res, next) => {
     const {modify_points, point_goal} = req.body;
     if(isNaN(modify_points) && isNaN(point_goal)) {
-      return res.status(400).json({error: {message: 'Body must contain number modify_points or number point_goal'}});
+      return res.status(400).json({message: 'Body must contain number modify_points or number point_goal'});
     }
     const newData = {};
     if(point_goal) {
@@ -93,7 +93,7 @@ usersRouter
     UsersService.getUsername(req.app.get('db'), user_id)
       .then(user => {
         if (!user) {
-          return res.status(400).json({error: 'User not found'});
+          return res.status(400).json({message: 'User not found'});
         }
         return res.status(200).json(user.user_name);
       })
