@@ -26,13 +26,13 @@ Finishing the goal on time grants the points decided, while failing to accomplis
 The user can also set rewards and associated point values. Once the user has enough points, they can redeem their rewards.
 
 Creating a goal:
-![alt text](./screenshots/create_goal.png)
+![alt text](./screenshots/creating_goal.png)
 
-Failing a goal:
-![alt text](./screenshots/failed_goal.png)
+Creating a reward:
+![alt text](./screenshots/create_reward.png)
 
-Rewards:
-![alt text](./screenshots/rewards.png)
+View past goals:
+![alt text](./screenshots/archived_goals.png)
 
 TECHNOLOGY
 --------------------------------------------------------
